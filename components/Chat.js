@@ -19,3 +19,19 @@ export default class Chat extends Component {
     );
   }
 }
+
+//stayling
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: "80%",
+  },
+  text: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "400",
+  },
+});
