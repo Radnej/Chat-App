@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
+// import react Navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
 // import the screens to navigate
 import Start from "./components/Start";
 import Chat from "./components/Chat";
