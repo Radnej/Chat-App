@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: "88%",
     flex: 1,
-    justifyContent: "end",
+    justifyContent: "flex-end",
   },
   button: {
     height: 50,
