@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: "40%",
     marginBottom: "5%",
     paddingTop: "5%",
-    paddingBottom: "9%",
+    paddingBottom: "5%",
   },
   inputBox: {
     width: "88%",
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
     marginLeft: "2%",
   },
   label: {
-    marginBottom: "10%",
+    marginBottom: "5%",
   },
   colors: {
     flexDirection: "row",
-    marginBottom: 1,
+    marginBottom: "5%",
   },
   color: {
     borderRadius: 20,
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 4,
   },
+
   buttonText: {
     color: "#FFFFFF",
     fontSize: 16,
