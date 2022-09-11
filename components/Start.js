@@ -15,7 +15,7 @@ export default class Start extends Component {
     super(props);
     this.state = {
       name: "",
-      color: "#333139",
+      color: "#090C08",
     };
   }
 
