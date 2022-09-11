@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, ScrollView, View, Text } from "react-native";
 
+// import Gifted Chat library
+import { GiftedChat } from "react-native-gifted-chat";
+
 export default class Chat extends Component {
   componentDidMount() {
     let { name } = this.props.route.params;
