@@ -12,6 +12,10 @@ import {
 
 import React, { Component } from "react";
 
+//Firestore Database
+const firebase = require("firebase");
+require("firebase/firestore");
+
 export default class Chat extends React.Component {
   constructor() {
     super();
