@@ -16,6 +16,26 @@ import React, { Component } from "react";
 const firebase = require("firebase");
 require("firebase/firestore");
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBx6N6ee_bH10UDFWIEzg_It2GUcBJcfzI",
+  authDomain: "chatapp-7ba3d.firebaseapp.com",
+  projectId: "chatapp-7ba3d",
+  storageBucket: "chatapp-7ba3d.appspot.com",
+  messagingSenderId: "251371325020",
+  appId: "1:251371325020:web:428cc68e56dbae5d9c0899",
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+// reference to your Firestore collection
+this.referenceChatMessages = firebase.firestore().collection("messages");
+
+this.state = {
+  messages: [],
+};
+
 export default class Chat extends React.Component {
   constructor() {
     super();
