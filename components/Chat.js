@@ -32,8 +32,26 @@ if (!firebase.apps.length) {
 // reference to your Firestore collection
 this.referenceChatMessages = firebase.firestore().collection("messages");
 
-this.state = {
-  messages: [],
+//allowing store data to be rendered in view
+onCollectionUpdate = (querySnapshot) => {
+  const messages = [];
+  // go through each document
+  querySnapshot.forEach((doc) => {
+    // get the QueryDocumentsSnapshot's data
+    let data = doc.data();
+    messages.push({
+      _id: data._id,
+      text: data.text,
+      createdAt: data.createdAt.toDate(),
+      user: {
+        _id: data.user._id,
+        name: data.user.name,
+      },
+    });
+  });
+  this.setState({
+    messages,
+  });
 };
 
 export default class Chat extends React.Component {
