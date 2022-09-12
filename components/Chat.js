@@ -21,6 +21,8 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
+    let { name } = this.props.route.params;
+    this.props.navigation.setOptions({ title: name });
     this.setState({
       messages: [
         {
@@ -64,12 +66,11 @@ export default class Chat extends React.Component {
 
   render() {
     const { color } = this.props.route.params;
-    let { name } = this.props.route.params;
-    this.props.navigation.setOptions({ title: name });
 
     return (
       <View style={{ flex: 1, backgroundColor: color }}>
         <GiftedChat
+          renderUsernameOnMessage={true}
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
