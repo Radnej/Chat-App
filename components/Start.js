@@ -26,7 +26,9 @@ export default class Start extends Component {
           source={require("../assets/Background-Image.png")}
           style={styles.backgroundImage}
         >
-          <Text style={styles.titleBox}>Chat App</Text>
+          <View style={styles.titleBoxWrapper}>
+            <Text style={styles.titleBox}>Chat App</Text>
+          </View>
           <View style={styles.box1}>
             <TextInput
               style={[styles.inputBox, styles.smallText]}
@@ -88,9 +90,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  titleBox: {
+  titleBoxWrapper: {
     flex: 1,
-    paddingTop: "30%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleBox: {
     fontSize: 45,
     fontWeight: "600",
     color: "#FFFFFF",
