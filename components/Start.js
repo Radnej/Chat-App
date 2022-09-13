@@ -5,9 +5,11 @@ import {
   Text,
   ImageBackground,
   TextInput,
-  Button,
   TouchableOpacity,
+  Button,
 } from "react-native";
+
+// import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class Start extends Component {
   constructor(props) {
