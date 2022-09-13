@@ -146,8 +146,7 @@ export default class Chat extends React.Component {
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
-            _id: this.state.user._id,
-            name: name,
+            _id: 1,
           }}
         />
         {Platform.OS === "android" ? (
