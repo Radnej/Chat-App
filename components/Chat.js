@@ -127,8 +127,11 @@ export default class Chat extends React.Component {
       <Bubble
         {...props}
         wrapperStyle={{
+          left: {
+            backgroundColor: "#fff",
+          },
           right: {
-            backgroundColor: "#000",
+            backgroundColor: "blue",
           },
         }}
       />
@@ -145,9 +148,7 @@ export default class Chat extends React.Component {
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
-          user={{
-            _id: 1,
-          }}
+          user={{ _id: this.state.user._id, name: "name" }}
         />
         {Platform.OS === "android" ? (
           <KeyboardAvoidingView behavior="height" />
@@ -157,8 +158,8 @@ export default class Chat extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+// });
