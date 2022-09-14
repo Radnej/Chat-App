@@ -40,9 +40,6 @@ export default class Chat extends React.Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-
-    // reference to your Firestore collection
-    this.referenceChatMessages = firebase.firestore().collection("messages");
   }
 
   //allowing store data to be rendered in view
@@ -96,6 +93,7 @@ export default class Chat extends React.Component {
   //delete a original listener
   componentWillUnmount() {
     this.unsubscribe();
+    this.authUnsubscribe();
   }
 
   // function which be called when user sends a message
@@ -148,7 +146,7 @@ export default class Chat extends React.Component {
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
-          user={{ _id: this.state.user._id, name: "name" }}
+          user={{ _id: this.state.user._id, name: this.state.user.name }}
         />
         {Platform.OS === "android" ? (
           <KeyboardAvoidingView behavior="height" />
