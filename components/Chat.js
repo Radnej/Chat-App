@@ -15,6 +15,9 @@ import React, { Component } from "react";
 //import AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+//import Netinfo to know if user is offline or online
+import NetInfo from "@react-native-community/netinfo";
+
 //Firestore Database
 const firebase = require("firebase");
 require("firebase/firestore");
@@ -67,13 +70,74 @@ export default class Chat extends React.Component {
     });
   };
 
+  // save messages to local storage
+  async getMessages() {
+    let messages = "";
+    try {
+      messages = (await AsyncStorage.getItem("messages")) || [];
+      this.setState({
+        messages: JSON.parse(messages),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  //update messages
+  async getMessages() {
+    let messages = "";
+    try {
+      messages = (await AsyncStorage.getItem("messages")) || [];
+      this.setState({
+        messages: JSON.parse(messages),
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  // saving messages without blocking the app
+  async saveMessages() {
+    try {
+      await AsyncStorage.setItem(
+        "messages",
+        JSON.stringify(this.state.messages)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  //delete messages
+  async deleteMessages() {
+    try {
+      await AsyncStorage.removeItem("messages");
+      this.setState({
+        messages: [],
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   componentDidMount() {
+    //loads the messages from asyncStorage
+    this.getMessages();
     //title Chat name
     let { name } = this.props.route.params;
     this.props.navigation.setOptions({ title: name });
 
     // Reference to load messages via Firebase
     this.referenceChatMessages = firebase.firestore().collection("messages");
+
+    // Check if user is offline or online using NetInfo
+    NetInfo.fetch().then((connection) => {
+      if (connection.isConnected) {
+        console.log("online");
+      } else {
+        console.log("offline");
+      }
+    });
 
     // Authenticate user anonymously
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -106,6 +170,8 @@ export default class Chat extends React.Component {
         messages: GiftedChat.append(previousState.messages, messages),
       }),
       () => {
+        // store messages
+        this.saveMessages();
         // Call addMessage with last message in message state
         this.addMessages(this.state.messages[0]);
       }
@@ -137,6 +203,14 @@ export default class Chat extends React.Component {
         }}
       />
     );
+  }
+
+  // When user is offline disable sending new messages
+  renderInputToolbar(props) {
+    if (this.state.isConnected == false) {
+    } else {
+      return <InputToolbar {...props} />;
+    }
   }
 
   render() {
