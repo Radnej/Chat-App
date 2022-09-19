@@ -12,6 +12,9 @@ import {
 
 import React, { Component } from "react";
 
+//import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 //Firestore Database
 const firebase = require("firebase");
 require("firebase/firestore");
