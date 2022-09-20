@@ -83,19 +83,6 @@ export default class Chat extends React.Component {
     }
   }
 
-  //update messages
-  async getMessages() {
-    let messages = "";
-    try {
-      messages = (await AsyncStorage.getItem("messages")) || [];
-      this.setState({
-        messages: JSON.parse(messages),
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
   // saving messages without blocking the app
   async saveMessages() {
     try {
@@ -133,10 +120,13 @@ export default class Chat extends React.Component {
     // Check if user is offline or online using NetInfo
     NetInfo.fetch().then((connection) => {
       if (connection.isConnected) {
-        console.log("online");
-      } else {
-        console.log("offline");
-      }
+        this.setState({
+          isConnected: true,
+        });
+      } else
+        this.setState({
+          isConnected: false,
+        });
     });
 
     // Authenticate user anonymously
