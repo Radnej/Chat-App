@@ -143,13 +143,13 @@ export default class Chat extends React.Component {
             .orderBy("createdAt", "desc")
             .onSnapshot(this.onCollectionUpdate);
         });
-      } else
+      }
+      //loads the messages from asyncStorage
+      else {
+        this.getMessages();
         this.setState({
           isConnected: false,
         });
-      //loads the messages from asyncStorage
-      {
-        this.getMessages();
       }
     });
   }
