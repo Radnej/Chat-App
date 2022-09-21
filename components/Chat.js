@@ -1,5 +1,5 @@
 // import Gifted Chat library
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 //fixing keyboard for android
 import {
   View,
@@ -108,14 +108,9 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
-    //loads the messages from asyncStorage
-    this.getMessages();
     //title Chat name
     let { name } = this.props.route.params;
     this.props.navigation.setOptions({ title: name });
-
-    // Reference to load messages via Firebase
-    this.referenceChatMessages = firebase.firestore().collection("messages");
 
     // Check if user is offline or online using NetInfo
     NetInfo.fetch().then((connection) => {
@@ -123,34 +118,47 @@ export default class Chat extends React.Component {
         this.setState({
           isConnected: true,
         });
+
+        //empty the asyncStorage from messages if there is connection
+        this.deleteMessages();
+
+        // Reference to load messages via Firebase
+        this.referenceChatMessages = firebase
+          .firestore()
+          .collection("messages");
+        // Authenticate user anonymously
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          this.setState({
+            uid: user.uid,
+            messages: [],
+            user: {
+              _id: user.uid,
+              name: name,
+            },
+          });
+          this.unsubscribe = this.referenceChatMessages
+            .orderBy("createdAt", "desc")
+            .onSnapshot(this.onCollectionUpdate);
+        });
       } else
         this.setState({
           isConnected: false,
         });
-    });
-
-    // Authenticate user anonymously
-    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        firebase.auth().signInAnonymously();
+      //loads the messages from asyncStorage
+      {
+        this.getMessages();
       }
-      this.setState({
-        uid: user.uid,
-        messages: [],
-        user: {
-          _id: user.uid,
-          name: name,
-        },
-      });
-      this.unsubscribe = this.referenceChatMessages
-        .orderBy("createdAt", "desc")
-        .onSnapshot(this.onCollectionUpdate);
     });
   }
   //delete a original listener
   componentWillUnmount() {
-    this.unsubscribe();
-    this.authUnsubscribe();
+    if (this.state.isConnected) {
+      this.unsubscribe();
+      this.authUnsubscribe();
+    }
   }
 
   // function which be called when user sends a message
@@ -214,6 +222,7 @@ export default class Chat extends React.Component {
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{ _id: this.state.user._id, name: this.state.user.name }}
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
         />
         {Platform.OS === "android" ? (
           <KeyboardAvoidingView behavior="height" />
