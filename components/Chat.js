@@ -1,3 +1,4 @@
+import React from "react";
 // import Gifted Chat library
 import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 //fixing keyboard for android
@@ -10,8 +11,6 @@ import {
   StyleSheet,
 } from "react-native";
 
-import React, { Component } from "react";
-
 //import AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -19,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 
 import CustomActions from "./CustomActions";
+import MapView from "react-native-maps";
 
 //Firestore Database
 const firebase = require("firebase");
@@ -33,9 +33,10 @@ export default class Chat extends React.Component {
       user: {
         _id: "",
         name: "",
+        avatar: "",
       },
+      isConnected: false,
     };
-
     // web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBx6N6ee_bH10UDFWIEzg_It2GUcBJcfzI",
@@ -53,18 +54,21 @@ export default class Chat extends React.Component {
   //allowing store data to be rendered in view
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
-    // go through each document
+    // Go through each document
     querySnapshot.forEach((doc) => {
-      // get the QueryDocumentsSnapshot's data
+      // Get the QueryDocumentsSnapshot's data
       let data = doc.data();
       messages.push({
         _id: data._id,
-        text: data.text,
+        text: data.text || "",
         createdAt: data.createdAt.toDate(),
         user: {
           _id: data.user._id,
           name: data.user.name,
+          avatar: data.user.avatar || "",
         },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -186,6 +190,8 @@ export default class Chat extends React.Component {
       text: message.text,
       createdAt: message.createdAt,
       user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
   };
 
@@ -242,9 +248,10 @@ export default class Chat extends React.Component {
       <View style={{ flex: 1, backgroundColor: color }}>
         <GiftedChat
           //this build action button
-          renderActions={this.renderCustomActions}
+          renderActions={this.renderCustomActions.bind(this)}
           renderUsernameOnMessage={true}
           renderBubble={this.renderBubble.bind(this)}
+          renderCustomView={this.renderCustomView}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{ _id: this.state.user._id, name: this.state.user.name }}
@@ -257,9 +264,3 @@ export default class Chat extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });
