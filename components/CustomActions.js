@@ -1,16 +1,13 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import PropTypes from "prop-types";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
-
-//let user to select photo from their library or take a new photo
-// import * as Permissions from "expo-permissions";
+import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-//let user to send a location
 import * as Location from "expo-location";
-
 import firebase from "firebase";
-import firestore from "firebase";
+import "firebase/firestore";
+import { CAMERA } from "expo-permissions";
 
 class CustomAction extends React.Component {
   // Upload images to firebase
@@ -42,8 +39,8 @@ class CustomAction extends React.Component {
   };
 
   pickImage = async () => {
-    // let user to choose an existing image from their device’s media library
-    const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    // Ask for permission
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     try {
       if (status === "granted") {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,21 +57,20 @@ class CustomAction extends React.Component {
       }
     } catch (error) {
       console.log(error.message);
-      Alert(error.message || "An error has occurred!");
+      alert(error.message || "An error has occurred!");
     }
   };
 
   takePhoto = async () => {
-    // let user to take a picture with their device's camera
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    const { status } = await Permissions.askAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL
+    );
     try {
       if (status === "granted") {
-        let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: "Images",
-        }).catch((error) => {
-          console.log(error);
-          Alert(error.message || "An error has occurred!");
-        });
+        const result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        }).catch((error) => console.log(error));
 
         if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
@@ -83,12 +79,11 @@ class CustomAction extends React.Component {
       }
     } catch (error) {
       console.log(error.message);
-      Alert(error.message || "An error has occurred!");
     }
   };
 
   getLocation = async () => {
-    // let user to send their locations
+    // Ask for permission
     const { status } = await Location.requestForegroundPermissionsAsync();
     try {
       if (status === "granted") {
@@ -109,8 +104,37 @@ class CustomAction extends React.Component {
     }
   };
 
+  // Upload images to firebase
+  uploadImageFetch = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+
+    const imageNameBefore = uri.split("/");
+    const imageName = imageNameBefore[imageNameBefore.length - 1];
+
+    const ref = firebase.storage().ref().child(`images/${imageName}`);
+
+    const snapshot = await ref.put(blob);
+
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
+  };
+
   // Actionsheet
   onActionPress = () => {
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = [
       "Choose From Library",
       "Take Picture",
