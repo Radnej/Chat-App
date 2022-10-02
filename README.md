@@ -115,7 +115,7 @@ npm install react-native-gifted-chat
 import { GiftedChat } from 'react-native-gifted-chat';
 ```
 
-3. Follow instructions to set up chat: https://github.com/FaridSafi/react-native-gifted-chat 
+3. Follow instructions to set up chat: https://github.com/Radnej/Chat-App
 
 ### Set up Cloud Firestore as data storage platform
 1. Install Firestore via Firebase
