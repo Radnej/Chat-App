@@ -3,14 +3,15 @@
 ## Description
 The aim of this project is to build a chat app for mobile devices using React Native. The app will provide users with a chat interface and options to share images and their location.
 
-* React Native![Chat App2](https://user-images.githubusercontent.com/91905344/202871633-fd814f27-729a-4f92-9998-c5afdba01d87.gif)
+![Chat App2](https://user-images.githubusercontent.com/91905344/202871633-fd814f27-729a-4f92-9998-c5afdba01d87.gif)
 
-
+## Tools
+* React Native
 * Expo
 * Google Firebase
 * Gifted Chat
 
-### User Stories
+## User Stories
 * As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my friends and family.
 * As a user, I want to be able to send messages to my friends and family members to exchange the latest news.
 * As a user, I want to send images to my friends to show them what I’m currently doing.
@@ -20,7 +21,7 @@ time.
 * As a user with a visual impairment, I want to use a chat app that is compatible with a screen
 reader so that I can engage with a chat interface.
 
-### Key Features
+## Key Features
 * A page where users can enter their name and choose a background color for the chat screen before joining the chat.
 * A page displaying the conversation, as well as an input field and submit button.
 * The chat must provide users with two additional communication features: sending images
@@ -28,7 +29,7 @@ and location data.
 * Data gets stored online and offline.
 
 
-### What technology did I use and why?
+## What technology did I use and why?
 
 I chose to create the mobile application using **React Native** due to the following considerations:
 * Develop and maintain the same codebase across different OS (iOS and Android)
@@ -56,7 +57,7 @@ I'm working with **WebSocket** as a real-time application technology as it fulfi
 
 I use **Cloud Firestore** as data storage platform for this application. real-time data
 
-### What challenges did I face, what did I learn?
+## What challenges did I face, what did I learn?
 * The React Native Button component only supports a minimal level of customization. To customize buttons, use Pressable or Touchable components.
 
 * There is a new Firestore version v9 available which differs greatly from v7 used in the CF examples. I decided to use v9 in this application, relying on the Firebase documentation.
