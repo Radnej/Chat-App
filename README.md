@@ -5,6 +5,7 @@ The aim of this project is to build a chat app for mobile devices using React Na
 
 * React Native![Chat App2](https://user-images.githubusercontent.com/91905344/202871633-fd814f27-729a-4f92-9998-c5afdba01d87.gif)
 
+
 * Expo
 * Google Firebase
 * Gifted Chat
