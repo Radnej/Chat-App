@@ -3,9 +3,8 @@
 ## Description
 The aim of this project is to build a chat app for mobile devices using React Native. The app will provide users with a chat interface and options to share images and their location.
 
-![Chat App1](https://user-images.githubusercontent.com/91905344/202871546-727e5b5a-559f-4a23-97b1-186abcb6c094.gif)
+* React Native![Chat App2](https://user-images.githubusercontent.com/91905344/202871633-fd814f27-729a-4f92-9998-c5afdba01d87.gif)
 
-* React Native
 * Expo
 * Google Firebase
 * Gifted Chat
