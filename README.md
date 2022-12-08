@@ -5,11 +5,6 @@ The aim of this project is to build a chat app for mobile devices using React Na
 
 ![Chat App2](https://user-images.githubusercontent.com/91905344/202871633-fd814f27-729a-4f92-9998-c5afdba01d87.gif)
 
-## Tools
-* React Native
-* Expo
-* Google Firebase
-* Gifted Chat
 
 ## User Stories
 * As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my friends and family.
@@ -28,44 +23,21 @@ reader so that I can engage with a chat interface.
 and location data.
 * Data gets stored online and offline.
 
+## Technologies Used
 
-## What technology did I use and why?
+* React Native
+* Expo
+* Google Firebase
+* Gifted Chat
 
-I chose to create the mobile application using **React Native** due to the following considerations:
-* Develop and maintain the same codebase across different OS (iOS and Android)
-* Increased performance compared to Hybrid Apps as UI is rendered natively
-* Possibility to access device's APIs (camera, microphone, ...) (compared to PWA)
-* Use existing skills in JavaScript and React, no need to learn another programming language
-* Large and active community
+## Tool Used
 
-Further, I'm using **XCode** as an iOS simulator and **Android Studio** as an Android emulator.
-
-I use **Expo** as development environment to develop and test the app.
-
-I use the **React Navigation** third party library to navigate between screens.
-
-I use the React Native **Gifted Chat** library to create the UI of my chat app. The library has good GitHub statistics and is well documented. Further, it already provides predefined components for integral parts of the chat app:
-* Message bubbles
-* A message input field
-* A send button
-* Options for displaying user names and avatars
-
-I'm working with **WebSocket** as a real-time application technology as it fulfills the following requirements of my chat application:
-* Transmitting in- and outgoing data immediately
-* Two-way communication between clients and server
-* Avoids data bloat compared to long polling
-
-I use **Cloud Firestore** as data storage platform for this application. real-time data
-
-## What challenges did I face, what did I learn?
-* The React Native Button component only supports a minimal level of customization. To customize buttons, use Pressable or Touchable components.
-
-* There is a new Firestore version v9 available which differs greatly from v7 used in the CF examples. I decided to use v9 in this application, relying on the Firebase documentation.
-
-* Using functional components instead of class components, handling the onAuthStateChanged and signInAnonymously functions from Firebase within the useEffect() Hook of the Chat.js component resulted in issues with the user creation. When trying to send a message, the user object was still empty, leading to an error in the addDoc() function. Therefore, I have decided to move the user sign up (signInAnonymously) to the Start.js component and the onAuthStateChanged into the App.js component. This ensures that a user can only access the Chat screen and thus send messages when they are successfully authenticated. (See also this blog post for further details: https://blog.jscrambler.com/build-a-chat-app-with-firebase-and-react-native )
+* VS Code
+* XCode 
+* Android Studio
 
 
-## Development Process for the chat application
+## To Run Locally
 ### Set up Expo as Development Environment
 1. Install Expo Command Line Interface
 ```bash
